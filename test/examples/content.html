@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <!--script with while card-->
+    <script src="scripts1/**/*.js"></script>
+    <!--script with attr-->
+    <script src="scripts2/*" some-attr="some-value"></script>
+    <!--script without wildcard should be skipped-->
+    <script src="scripts2/script4.js"></script>
+    <script>
+        console.log("inline script should not be touched");
+    </script>
+</head>
+<body>
+    <span>&quot;</span>
+</body>
+</html>
