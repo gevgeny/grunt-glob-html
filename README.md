@@ -20,6 +20,9 @@ grunt.loadNpmTasks('grunt-glob-html');
 ## The "globhtml" task
 
 ### Overview
+
+This grunt task allows to use [glob][https://github.com/isaacs/node-glob] syntax when you specify `src` in script tag.
+
 ####Initial HTML
 
 ```html
@@ -54,7 +57,7 @@ grunt.loadNpmTasks('grunt-glob-html');
 </html>
 ```
 
-See tests for more detailed HTML examples.
+See [tests][https://github.com/gevgeny/grunt-glob-html/tree/master/test/examples] for more detailed HTML examples.
 
 ### Options
 
