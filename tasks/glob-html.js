@@ -17,58 +17,96 @@ module.exports = function (grunt) {
     };
 
     /**
-     * Expand script with wildcard src to matched ones.
-     * @param {object} $script script with wildcard.
-     * @return {Array<object>} matched scripts.
+     * Expand element with glob to matched values.
+     * @param {object} $element Element with glob.
+     * @param {string} attr Resource attr. (src, href).
+     * @return {Array<object>} matched values.
      * */
-    var expandScript = function ($script) {
-        var path = $script.attr('src'),
+    var expandElement = function ($element, attr) {
+        var path = $element.attr(attr),
             expandedPaths = grunt.file.expand(path);
 
-        grunt.log.writeln('Expand ' + path.cyan + ' to ' + expandedPaths.length.toString().cyan + ' scripts');
+        grunt.log.writeln('Expand ' + path.cyan + ' to ' + expandedPaths.length.toString().cyan + ' files');
 
         return expandedPaths.map(function (path) {
-            return $script.clone().attr('src', path).toString();
+            return $element.clone().attr(attr, path).toString();
         });
     };
 
     /**
-     * Replaces all the <script> tags with wildcard with expanded values.
-     * @param {string} content HTML content with <script> tags.
+     * Checks whether element should be handled and return appropriate attr in accordance with element type:
+     * link - href, script - src.
+     * @param {object} $element element to handle.
+     * @return {string} attr to handle. ('src', 'href', undefined)
+     * */
+    var getAttrToHandle = function ($element) {
+        var attr;
+
+        if ($element.is('script')) {
+            attr = 'src';
+        } else if ($element.is('link')) {
+            attr = 'href';
+        }
+
+        if (($element.attr(attr) || '').indexOf('*') !== -1) {
+            return attr;
+        }
+    };
+
+    /**
+     * Fetches element's indent.
+     * @param {object} $element element to handle.
+     * @return {string} indent;
+     * */
+    var fetchIndent = function ($element) {
+        var indent = '';
+
+        // Check whether prev element is whitespace.
+        if (/^\s+$/.test($element[0].prev.data)) {
+            indent = $element[0].prev.data;
+            console.log('space1', grunt.util._.map(indent, function (item) { return item.charCodeAt(0); }));
+            // Cut line break.
+            indent = grunt.util._.last(indent.split(/\n|\r/));
+            console.log('space2', grunt.util._.map(indent, function (item) { return item.charCodeAt(0); }));
+        }
+
+        return '\n' + indent;
+    };
+
+    /**
      * */
     var processFile = function (content) {
         var $ = cheerio.load(content),
-            $scripts = $('script'),
-            noScriptsFound = true;
+            $elements = $('script,link'),
+            noElementsFound = true;
 
-        $scripts.each(function (i, script) {
-            var $script = $(script), indent = '';
+        $elements.each(function (i, element) {
+            var $element = $(element), indent,
+                attr = getAttrToHandle($element);
 
-            // Just skip entries without wildcard.
-            if (($script.attr('src') || '').indexOf('*') === -1) {
+            if (!attr) {
                 return;
             }
-            noScriptsFound = false;
-
-            // Save initial script indent to have beauty code. :)
-            if (/^\s+$/.test($script[0].prev.data)) {
-                indent = $script[0].prev.data;
-            }
+            noElementsFound = false;
+            indent = fetchIndent($element);
 
             // Expand initial script to matched ones.
-            expandScript($script).forEach(function (script) {
-                // Add expanded script.
-                $script.before(script + indent);
+            expandElement($element, attr).forEach(function (element, i) {
+                if (i === 0) {
+                    $element.before(element);
+                } else {
+                    $element.before(indent + element);
+                }
             });
 
-            // Remove the script with its indent.
-            if (indent) {
-                $script[0].prev.data = '';
-            }
-            $script.remove();
+            // Remove the handled element with its indent.
+//            if (indent) {
+//                $element[0].prev.data = '';
+//            }
+            $element.remove();
         });
 
-        if (noScriptsFound) {
+        if (noElementsFound) {
             grunt.log.writeln('No scripts with wildcard found');
             return content;
         }
@@ -78,7 +116,6 @@ module.exports = function (grunt) {
 
 
     grunt.registerMultiTask('globhtml', 'Add globbing to your HTML', function () {
-        debugger;
         var gruntDir = process.cwd(),
             dest = this.data.dest;
 
@@ -100,7 +137,8 @@ module.exports = function (grunt) {
             
             // Expand scripts with wildcards.
             processedContent = processFile(content);
-
+            
+            console.log(processedContent);
             // Reset base dir to default.
             grunt.file.setBase(gruntDir);
 

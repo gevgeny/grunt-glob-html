@@ -21,7 +21,7 @@ grunt.loadNpmTasks('grunt-glob-html');
 
 ### Overview
 
-This grunt task allows to use [glob](https://github.com/isaacs/node-glob) syntax when you specify `src` in script tag.
+This grunt task allows to use [glob](https://github.com/isaacs/node-glob) syntax when you specify `src` in script or link tags.
 
 ####Initial HTML
 
@@ -31,6 +31,9 @@ This grunt task allows to use [glob](https://github.com/isaacs/node-glob) syntax
 <head lang="en">
     <meta charset="UTF-8">
     <title>glob-html example</title>
+    
+    <link href="css/*.css" rel="stylesheet" type="text/css">
+    	
     <script src="scripts/*"></script>
 </head>
 <body>
@@ -47,6 +50,11 @@ This grunt task allows to use [glob](https://github.com/isaacs/node-glob) syntax
 <head lang="en">
     <meta charset="UTF-8">
     <title>glob-html example</title>
+    
+    <link href="css/style1.css" rel="stylesheet" type="text/css">
+    <link href="css/style2.css" rel="stylesheet" type="text/css">
+    <link href="css/style3.css" rel="stylesheet" type="text/css">
+    	
     <script src="scripts/script1.js"></script>
     <script src="scripts/script2.js"></script>
     <script src="scripts/script3.js"></script>
