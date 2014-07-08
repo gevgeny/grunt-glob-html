@@ -64,10 +64,9 @@ module.exports = function (grunt) {
         // Check whether prev element is whitespace.
         if (/^\s+$/.test($element[0].prev.data)) {
             indent = $element[0].prev.data;
-            console.log('space1', grunt.util._.map(indent, function (item) { return item.charCodeAt(0); }));
+
             // Cut line break.
             indent = grunt.util._.last(indent.split(/\n|\r/));
-            console.log('space2', grunt.util._.map(indent, function (item) { return item.charCodeAt(0); }));
         }
 
         return '\n' + indent;
@@ -137,8 +136,7 @@ module.exports = function (grunt) {
             
             // Expand scripts with wildcards.
             processedContent = processFile(content);
-            
-            console.log(processedContent);
+
             // Reset base dir to default.
             grunt.file.setBase(gruntDir);
 
