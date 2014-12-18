@@ -35,6 +35,11 @@ module.exports = function (grunt) {
             multipleSrc: {
                 src: 'test/examples/*.html',
                 dest: 'test/tmp/multiple-src/'
+            },
+            customBase: {
+                src: 'test/examples-custom-base/content.html',
+                dest: 'test/tmp/custom-base/content.html',
+                base: 'test/examples'
             }
         },
 

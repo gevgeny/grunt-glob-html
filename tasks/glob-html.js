@@ -116,7 +116,11 @@ module.exports = function (grunt) {
 
     grunt.registerMultiTask('globhtml', 'Add globbing to your HTML', function () {
         var gruntDir = process.cwd(),
-            dest = this.data.dest;
+            data = this.data,
+            dest = data.dest,
+            baseDir = function(filePath) {
+                return data.base ? data.base : path.dirname(filePath)
+            };
 
         if (!this.filesSrc.length) {
             grunt.log.error('No sources found');
@@ -132,7 +136,7 @@ module.exports = function (grunt) {
             grunt.log.writeln('Processing ' + filePath.cyan);
 
             // Set processing file dir as cwd because script tag source related to the HTML and not to the Grunt file.
-            grunt.file.setBase(path.dirname(filePath));
+            grunt.file.setBase(baseDir(filePath));
             
             // Expand scripts with wildcards.
             processedContent = processFile(content);
