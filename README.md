@@ -32,9 +32,11 @@ This grunt task allows to use [glob](https://github.com/isaacs/node-glob) syntax
     <meta charset="UTF-8">
     <title>glob-html example</title>
     
+    <link href="css/style3.css" rel="stylesheet" type="text/css">
     <link href="css/*.css" rel="stylesheet" type="text/css">
     	
     <script src="scripts/*"></script>
+    <script src="scripts/script2.js"></script>
 </head>
 <body>
     <p>glob-html example</p>
@@ -51,13 +53,13 @@ This grunt task allows to use [glob](https://github.com/isaacs/node-glob) syntax
     <meta charset="UTF-8">
     <title>glob-html example</title>
     
+    <link href="css/style3.css" rel="stylesheet" type="text/css">
     <link href="css/style1.css" rel="stylesheet" type="text/css">
     <link href="css/style2.css" rel="stylesheet" type="text/css">
-    <link href="css/style3.css" rel="stylesheet" type="text/css">
     	
     <script src="scripts/script1.js"></script>
-    <script src="scripts/script2.js"></script>
     <script src="scripts/script3.js"></script>
+    <script src="scripts/script2.js"></script>
 </head>
 <body>
     <p>glob-html example</p>
