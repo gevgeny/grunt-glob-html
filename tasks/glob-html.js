@@ -34,20 +34,26 @@ module.exports = function (grunt) {
     };
 
     /**
-     * Checks whether element should be handled and return appropriate attr in accordance with element type:
+     * Get the appropriate attr to handle in accordance with element type:
      * link - href, script - src.
      * @param {object} $element element to handle.
-     * @return {string} attr to handle. ('src', 'href', undefined)
+     * @return {string} attr to handle. ('src', 'href')
      * */
     var getAttrToHandle = function ($element) {
-        var attr;
-
         if ($element.is('script')) {
-            attr = 'src';
-        } else if ($element.is('link')) {
-            attr = 'href';
+            return 'src';
         }
 
+        return 'href';
+    };
+
+    /**
+     * Checks whether element should be handled.
+     * @param {object} $element element to handle.
+     * @return {boolean}
+     * */
+    var isElementHandled = function ($element) {
+        var attr = getAttrToHandle($element);
         if (($element.attr(attr) || '').indexOf('*') !== -1) {
             return attr;
         }
@@ -77,24 +83,43 @@ module.exports = function (grunt) {
     var processFile = function (content) {
         var $ = cheerio.load(content),
             $elements = $('script,link'),
-            noElementsFound = true;
+            elementsToProcess = [],
+            manualElements = [];
 
         $elements.each(function (i, element) {
             var $element = $(element), indent,
                 attr = getAttrToHandle($element);
 
-            if (!attr) {
-                return;
+            var attrVal = $element.attr(attr);
+            if(attrVal) {
+                if (isElementHandled($element)) {
+                    elementsToProcess.push(element);
+                }
+                else {
+                    manualElements.push(attrVal);
+                }
             }
-            noElementsFound = false;
+        });
+
+        if (elementsToProcess.length === 0) {
+            grunt.log.writeln('No scripts with wildcard found');
+            return content;
+        }
+
+        elementsToProcess.forEach(function (element, i) {
+            var $element = $(element), indent, attr = getAttrToHandle($element);
+
             indent = fetchIndent($element);
 
             // Expand initial script to matched ones.
-            expandElement($element, attr).forEach(function (element, i) {
-                if (i === 0) {
-                    $element.before(element);
-                } else {
-                    $element.before(indent + element);
+            expandElement($element, attr).forEach(function (newElement, i) {
+                var $newElement = $(newElement);
+                if(manualElements.indexOf($newElement.attr(attr)) < 0) {
+                    if (i === 0) {
+                        $element.before(newElement);
+                    } else {
+                        $element.before(indent + newElement);
+                    }
                 }
             });
 
@@ -104,11 +129,6 @@ module.exports = function (grunt) {
 //            }
             $element.remove();
         });
-
-        if (noElementsFound) {
-            grunt.log.writeln('No scripts with wildcard found');
-            return content;
-        }
 
         return $.html();
     };

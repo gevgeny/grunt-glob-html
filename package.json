@@ -1,7 +1,7 @@
 {
     "name": "grunt-glob-html",
     "description": "Add globbing to your HTML",
-    "version": "0.2.2",
+    "version": "0.2.3",
     "homepage": "https://github.com/gevgeny/grunt-glob-html",
     "author": {
         "name": "Eugene Gluhotorenko",
