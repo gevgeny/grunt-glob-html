@@ -84,7 +84,7 @@ module.exports = function (grunt) {
         var $ = cheerio.load(content),
             $elements = $('script,link'),
             elementsToProcess = [],
-            manualElements = [];
+            alreadySetAttrs = [];
 
         $elements.each(function (i, element) {
             var $element = $(element), indent,
@@ -96,7 +96,7 @@ module.exports = function (grunt) {
                     elementsToProcess.push(element);
                 }
                 else {
-                    manualElements.push(attrVal);
+                    alreadySetAttrs.push(attrVal);
                 }
             }
         });
@@ -114,12 +114,14 @@ module.exports = function (grunt) {
             // Expand initial script to matched ones.
             expandElement($element, attr).forEach(function (newElement, i) {
                 var $newElement = $(newElement);
-                if(manualElements.indexOf($newElement.attr(attr)) < 0) {
+                var attrVal = $newElement.attr(attr);
+                if(alreadySetAttrs.indexOf(attrVal) < 0) {
                     if (i === 0) {
                         $element.before(newElement);
                     } else {
                         $element.before(indent + newElement);
                     }
+                    alreadySetAttrs.push(attrVal);
                 }
             });
 
