@@ -1,45 +1,46 @@
 {
-    "name": "grunt-glob-html",
-    "description": "Add globbing to your HTML",
-    "version": "0.2.3",
-    "homepage": "https://github.com/gevgeny/grunt-glob-html",
-    "author": {
-        "name": "Eugene Gluhotorenko",
-        "email": "e.gluhotorenko@gmail.com"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/gevgeny/grunt-glob-html.git"
-    },
-    "bugs": {
-        "url": "https://github.com/gevgeny/grunt-glob-html/issues"
-    },
-    "licenses": [
-        {
-            "type": "MIT",
-            "url": "https://github.com/gevgeny/grunt-glob-html/blob/master/LICENSE"
-        }
-    ],
-    "engines": {
-        "node": ">= 0.8.0"
-    },
-    "scripts": {
-        "test": "grunt test"
-    },
-    "dependencies": {
-        "cheerio": "0.15.0",
-        "grunt-mocha-test": "0.10.2"
-    },
-    "devDependencies": {
-        "grunt-contrib-jshint": "^0.9.2",
-        "grunt-contrib-clean": "^0.5.0",
-        "grunt-contrib-nodeunit": "^0.3.3",
-        "grunt": "~0.4.0"
-    },
-    "peerDependencies": {
-        "grunt": "~0.4.0"
-    },
-    "keywords": [
-        "gruntplugin", "glob"
-    ]
+  "name": "grunt-glob-html",
+  "description": "Add globbing to your HTML",
+  "version": "0.3.0",
+  "homepage": "https://github.com/gevgeny/grunt-glob-html",
+  "author": {
+    "name": "Eugene Gluhotorenko",
+    "email": "e.gluhotorenko@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gevgeny/grunt-glob-html.git"
+  },
+  "bugs": {
+    "url": "https://github.com/gevgeny/grunt-glob-html/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/gevgeny/grunt-glob-html/blob/master/LICENSE"
+    }
+  ],
+  "engines": {
+    "node": ">= 0.8.0"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "dependencies": {
+    "cheerio": "0.15.0",
+    "grunt-mocha-test": "0.10.2"
+  },
+  "devDependencies": {
+    "grunt-contrib-jshint": "^0.9.2",
+    "grunt-contrib-clean": "^0.5.0",
+    "grunt-contrib-nodeunit": "^0.3.3",
+    "grunt": "~0.4.0"
+  },
+  "peerDependencies": {
+    "grunt": "~0.4.0"
+  },
+  "keywords": [
+    "gruntplugin",
+    "glob"
+  ]
 }
