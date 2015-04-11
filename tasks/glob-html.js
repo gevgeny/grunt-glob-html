@@ -141,7 +141,7 @@ module.exports = function (grunt) {
             data = this.data,
             dest = data.dest,
             baseDir = function(filePath) {
-                return data.base ? data.base : path.dirname(filePath)
+                return data.base || path.dirname(filePath);
             };
 
         if (!this.filesSrc.length) {
